@@ -1,0 +1,67 @@
+@startuml
+
+' hide the spot
+' hide circle
+
+' avoid problems with angled crows feet
+skinparam linetype ortho
+
+entity "User" as u {
+  *id_user : uuid <<generated>>
+  --
+  *name : text
+  *phone : text
+  description : text
+}
+
+entity "House" as h {
+  *id_house : uuid <<generated>>
+  --
+  *id_user : uuid <<FK>>
+  *description : text
+  *address : text
+  *id_subscription_plan : uuid <<FK>>
+  *start_subscr_date : date
+  *end_subscr_date : date
+}
+
+entity "Device" as d {
+  *id_device : uuid <<generated>>
+  --
+  *id_house : uuid <<FK>>
+  *id_type : number <<FK>>
+  *maker : text
+  *is_active : boolean
+}
+
+entity "DeviceType" {
+  *id_device_type : number <<generated>>
+  --
+  *type : text
+  *desccsription : text
+}
+
+entity "TelemetryData" as tdata {
+  *id_data : uuid <<generated>>
+  --
+  *id_device : uuid <<FK>>
+  *payload : jsonb
+  *ts : timestamp
+}
+
+entity "SubsriptionPlan" as sub {
+  *id_subscription_plan : number <<generated>>
+  --
+  *title : text
+  *description : text
+  *isActive : boolean
+}
+
+
+u ||..o{ h
+h |o..o{ d
+d }o..|| "DeviceType"
+h }o..|| sub
+tdata }O..|| d
+
+@enduml
