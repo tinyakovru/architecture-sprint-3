@@ -64,6 +64,6 @@ u ||..o{ h
 h |o..o{ d
 d }o..|| "DeviceType"
 h }o..|| sub
-tdata }O..|| d
+tdata }o..|| d
 
 @enduml
