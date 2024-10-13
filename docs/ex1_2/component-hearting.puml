@@ -1,0 +1,27 @@
+@startuml
+title SmartHouse Hearting Microservice Diagram
+
+top to bottom direction
+
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+
+Container_Boundary(HeartingMicroservice, "Hearting Microservice") {
+  Container(javaApp, "Hearting Microservice", "Java, Spring", "Handles user interactions")
+  Container(Database, "Database", "PostgreSQL", "Stores data about temperature")
+}
+
+Container(javaApp, "Hearting Microservice", "Java, Spring") {
+  Component(Controller, "Controller", "Handles user requests")
+  Component(KafkaConsumer, "Kafka Consumer", "pull data from kafka")
+  Component(ServiceLayer, "Service Layer", "buisnes logic: transform and store data from kafka, check target temperature")
+  Component(RESTclient, "REST client", "request control service if current temperature less then target")
+  Component(RepositoryLayer, "Repository Layer", "Data access logic")
+}
+
+Rel(Controller,ServiceLayer,"Calls business logic")
+Rel(ServiceLayer,RepositoryLayer,"Calls business logic")
+Rel(KafkaConsumer,ServiceLayer,"Calls business logic")
+Rel(ServiceLayer,RESTclient,"Reads/Writes data")
+Rel(ServiceLayer,RepositoryLayer,"Reads/Writes data")
+Rel(RepositoryLayer,Database,"Reads/Writes user data")
+@enduml
