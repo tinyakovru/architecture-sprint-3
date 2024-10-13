@@ -6,10 +6,10 @@ top to bottom direction
 !includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
 
 Person(user, "User", "A user of the web or mobile application")
-'Person(admin, "Administrator", "An administrator managing the system")
-System(Мониторинг, "мониторинг температуры", "")
-System(Управление, "управление отоплением", "")
-
+Container_Boundary(JavaApp, "Java application") {
+    System(Мониторинг, "мониторинг температуры", "")
+    System(Управление, "управление отоплением", "")
+}
 System_Ext(датчик, "Датчики температуры", "АПИ для получения температуры")
 System_Ext(реле, "реле управления отоплением", "апи для включения/отключения отопления")
 
