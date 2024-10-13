@@ -31,6 +31,8 @@ entity "Device" as d {
   *id_house : uuid <<FK>>
   *id_type : number <<FK>>
   *maker : text
+  *status : text
+  *serial_number : text
   *is_active : boolean
 }
 
