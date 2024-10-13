@@ -25,19 +25,54 @@ Api Gateway
 
 API сервиса управления домами и сервиса отопления
 сервис управления домами:
+
 GET /houses - список домов
+
 GET /houses/{id} - получить дом по id
+
 GET /houses/{id}/devices - получить список устройств в доме
+
 POST /houses/add - создать новый дом
+
 POST /houses/{id}/devices/add - добавить новое устройство
+
 DELETE /houses/{id}/devices/{devise_id} - удалить устройство
+
 PUT /houses/{id} - редактировать дом 
+
 PUT /houses/{id}/devices/{devise_id} - редактировать устройство
 
 cервис управления  отоплением:
+
 GET /heater/house/{id}/targetTemperature - получить целевую температуру для данного дома
+
 PUT /heater/house/{id}/targetTemperature - задать целевую температуру для данного дома
+
 GET /heater/house/{id}/historyTemperature - получить список значений температуры за определенный период
+
 GET /heater/device/{id}/status - получить статус устройства по айди
 
+PUT /heater/devise/{id}/status - обновить состояние устройства (вкл/выкл)
 
+Модели данных:
+
+house:
+```
+{
+    "id_house" : String,
+    "address" : String,
+    "user" : {},
+    "devices" : []
+}
+```
+
+device:
+```
+{
+    "id_device" : String,
+    "type" : String,
+    "maker" : String,
+    "status" : String,
+    "serial_number" : String
+}
+```
