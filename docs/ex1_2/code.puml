@@ -1,0 +1,43 @@
+@startuml
+title FitLife Membership Management Code Diagram
+
+top to bottom direction
+
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+
+class House {
+  +String idHouse
+  +User user
+  +List<ControlModule> modules
+  +SubscribePlan subscribePlan
+  +boolean isActive
+
+  +boolean addModule(ControlModule module)
+  +boolean removeModule(ControlModule module)
+  +boolean isContainModule(ControlModule module)
+  +boolean changeSubribePlan(SubscribePlan subscribePlan)
+  +boolean cancelSubscription();
+}
+
+class ControlModule {
+  +String type
+  +String id
+  +Date registerDate
+  +void activate()
+  +void cancel()
+}
+
+class SubscribePlan {
+  +String title
+  +Date startDate
+  +Date endDate
+  +Float price
+  +boolean isActive
+  +void activate()
+  +void cancel()
+}
+
+House "1" -- "0..*" ControlModule : has
+House "1" -- "0..*" SubscribePlan : has
+
+@enduml
