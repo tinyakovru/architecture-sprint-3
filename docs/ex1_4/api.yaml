@@ -1,0 +1,535 @@
+openapi: 3.0.0
+info:
+  title: Home and Heating Management API
+  description: API for managing houses and heating devices
+  version: 1.0.0
+
+paths:
+  /houses:
+    get:
+      summary: Get list of houses
+      responses:
+        200:
+          description: A list of houses
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/House'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+
+  /houses/{id}:
+    get:
+      summary: Get house by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Details of the house
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/House'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+
+    put:
+      summary: Edit house by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/House'
+      responses:
+        200:
+          description: House updated
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+
+  /houses/{id}/devices:
+    get:
+      summary: Get devices in a house
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: List of devices in the house
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Device'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+
+  /houses/add:
+    post:
+      summary: Add a new house
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/House'
+      responses:
+        '201':
+          description: House created
+
+  /houses/{id}/devices/add:
+    post:
+      summary: Add a new device to a house
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Device'
+      responses:
+        '201':
+          description: Device added to the house
+
+  /houses/{id}/devices/{device_id}:
+    delete:
+      summary: Delete a device from a house
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: device_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Device deleted
+
+    put:
+      summary: Edit device in a house
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: device_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Device'
+      responses:
+        200:
+          description: Device updated
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+
+  /heater/house/{id}/targetTemperature:
+    get:
+      summary: Get target temperature for a house
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Target temperature
+          content:
+            application/json:
+              schema:
+                type: number
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+
+    put:
+      summary: Set target temperature for a house
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                targetTemperature:
+                  type: number
+      responses:
+        200:
+          description: Target temperature updated
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+
+  /heater/house/{id}/historyTemperature:
+    get:
+      summary: Get temperature history for a house
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: List of temperature values over time
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: number
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+
+  /heater/device/{id}/status:
+    get:
+      summary: Get device status by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Device status
+          content:
+            application/json:
+              schema:
+                type: string
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+
+    put:
+      summary: Update device status by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  enum: [on, off]
+      responses:
+        200:
+          description: Device status updated
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+
+components:
+  schemas:
+    House:
+      type: object
+      properties:
+        id_house:
+          type: string
+        address:
+          type: string
+        id_user:
+          type: string
+        devices:
+          type: array
+          items:
+            $ref: '#/components/schemas/Device'
+
+    Device:
+      type: object
+      properties:
+        id_device:
+          type: string
+        type:
+          type: string
+        maker:
+          type: string
+        status:
+          type: string
+        serial_number:
+          type: string
+
+    error:
+      description: Ошибка
+      type: object
+      items:
+        type: array
+        additionalProperties: false
+      required:
+        - code
+        - title
+      properties:
+        code:
+          description: Код ошибки
+          type: string
+        title:
+          description: Краткое описание ошибки
+          type: string
+        details:
+          description: Подробное описание ошибки
+          type: string
+        source:
+          description: Источник ошибки
+          type: object
+          properties:
+            key:
+              type: string
+            value:
+              type: string
+              enum: [ "header", "path", "query", "body" ]
